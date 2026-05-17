@@ -1,0 +1,67 @@
+name: 🚀 Deploy Docker app on push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker-deploy:
+    name: 🐳 Deploy Docker Container
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 📤 Upload project files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          source: "./"
+          target: "/home/s2134588-php/htdocs/s2134588.ncgrp.xyz/hospitalappproject"
+          strip_components: 1
+
+      - name: 🐳 Build & restart Docker container on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          script: |
+            set -e
+
+            APP_DIR="/home/s2134588-php/htdocs/s2134588.ncgrp.xyz/hospitalappproject"
+            CONTAINER_NAME="hospitalappproject-app"
+            IMAGE_NAME="hospitalappproject-app:latest"
+
+            cd "$APP_DIR"
+
+            echo "Current directory:"
+            pwd
+            echo "Files:"
+            ls -la
+
+            # Ensure Dockerfile exists before build
+            if [ ! -f Dockerfile ]; then
+              echo "ERROR: Dockerfile not found in $APP_DIR"
+              exit 1
+            fi
+
+            # Stop and remove old container (safe on first run)
+            docker stop "$CONTAINER_NAME" || true
+            docker rm "$CONTAINER_NAME" || true
+
+            # Build latest image
+            docker build -t "$IMAGE_NAME" .
+
+            # Run new container
+            docker run -d \
+              --name "$CONTAINER_NAME" \
+              --restart unless-stopped \
+              -p 3036:80 \
+              "$IMAGE_NAME"
