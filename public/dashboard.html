@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospital Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body data-page="dashboard">
+  <header class="topbar">
+    <div>
+      <h1>Hospital Room Management</h1>
+      <p id="user-role"></p>
+    </div>
+    <button id="logout-button" class="ghost">Logout</button>
+  </header>
+  <main class="dashboard-grid">
+    <section class="summary-card">
+      <h2>Facility summary</h2>
+      <div class="summary-grid">
+        <div class="metric-card">
+          <span>Total patients</span>
+          <strong id="metric-patients">0</strong>
+        </div>
+        <div class="metric-card">
+          <span>Available rooms</span>
+          <strong id="metric-available-rooms">0</strong>
+        </div>
+        <div class="metric-card">
+          <span>Critical isolation</span>
+          <strong id="metric-critical">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <h2>Patient registry</h2>
+        <span>Secure patient records and isolation priority tracking.</span>
+      </div>
+      <div class="table-wrapper">
+        <table id="patients-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Condition</th>
+              <th>Risk</th>
+              <th>Priority</th>
+              <th>Room</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel patient-form-panel">
+      <div class="panel-title">
+        <h2>Add new patient</h2>
+      </div>
+      <form id="patient-form">
+        <label for="fullName">Full name</label>
+        <input id="fullName" name="fullName" required />
+
+        <label for="age">Age</label>
+        <input id="age" name="age" type="number" min="0" max="120" required />
+
+        <label for="conditionStatus">Condition status</label>
+        <select id="conditionStatus" name="conditionStatus" required>
+          <option value="Stable">Stable</option>
+          <option value="Severe">Severe</option>
+          <option value="Critical">Critical</option>
+        </select>
+
+        <label for="infectionRisk">Infection risk</label>
+        <select id="infectionRisk" name="infectionRisk" required>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+
+        <label for="notes">Clinical notes</label>
+        <textarea id="notes" name="notes" rows="3"></textarea>
+
+        <label for="assignedRoomId">Assign room</label>
+        <select id="assignedRoomId" name="assignedRoomId">
+          <option value="">No room assigned</option>
+        </select>
+
+        <button type="submit">Create patient</button>
+        <div class="feedback" id="patient-feedback"></div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <h2>Room inventory</h2>
+        <span>Track availability and isolation room assignments.</span>
+      </div>
+      <div class="table-wrapper">
+        <table id="rooms-table">
+          <thead>
+            <tr>
+              <th>Room</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Isolation</th>
+              <th>Patient assigned</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel admin-panel" id="admin-panel" hidden>
+      <div class="panel-title">
+        <h2>Admin user management</h2>
+      </div>
+      <form id="user-form">
+        <label for="userName">Full name</label>
+        <input id="userName" required />
+        <label for="userEmail">Email</label>
+        <input id="userEmail" type="email" required />
+        <label for="userRole">Role</label>
+        <select id="userRole" required>
+          <option value="staff">Staff</option>
+          <option value="admin">Admin</option>
+        </select>
+        <label for="userPassword">Password</label>
+        <input id="userPassword" type="password" required minlength="8" />
+        <button type="submit">Create user</button>
+        <div class="feedback" id="user-feedback"></div>
+      </form>
+      <div class="table-wrapper">
+        <table id="users-table">
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Role</th><th>Created</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="/js/main.js"></script>
+</body>
+</html>

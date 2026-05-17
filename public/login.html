@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospital Room Management - Login</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body data-page="login">
+  <main class="login-page">
+    <div class="login-card">
+      <h1>Hospital Room Management</h1>
+      <p>Secure staff sign-in for managing patients and rooms.</p>
+      <form id="login-form">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" required autocomplete="username" />
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" required autocomplete="current-password" />
+        <button type="submit">Sign in</button>
+        <div class="feedback" id="login-feedback"></div>
+      </form>
+      <div class="hint">
+        <strong>Admin user:</strong> admin@hospital.local / AdminPass!23
+      </div>
+    </div>
+  </main>
+  <script src="/js/main.js"></script>
+</body>
+</html>
